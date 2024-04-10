@@ -52,7 +52,7 @@ class Main(QMainWindow):
 
     def widgets(self):
         # Tab1 #
-        # Products #
+        # left layout widget #
         self.productsTable = QTableWidget()
         self.productsTable.setColumnCount(6)
         self.productsTable.setColumnHidden(0, True) #product Id column
@@ -62,6 +62,15 @@ class Main(QMainWindow):
         self.productsTable.setHorizontalHeaderItem(3, QTableWidgetItem("Price"))
         self.productsTable.setHorizontalHeaderItem(4, QTableWidgetItem("Qouta"))
         self.productsTable.setHorizontalHeaderItem(5, QTableWidgetItem("Availability"))
+        # right layout widget #
+        self.searchText = QLabel("Search")
+        self.searchEntry = QLineEdit()
+        self.searchEntry.setPlaceholderText("Search for products")
+        self.searchButton = QPushButton("Search")
+        self.allProducts = QRadioButton("All Products")
+        self.availableProducts = QRadioButton("Available")
+        self.notAvailableProducts = QRadioButton("Not Available")
+        self.listButton = QPushButton("List")
 
     def layouts(self):
         # Tab 1 #
@@ -70,13 +79,27 @@ class Main(QMainWindow):
         self.mainRightLayout = QVBoxLayout()
         self.rightTopLayout = QHBoxLayout()
         self.rightMiddleLayout = QHBoxLayout()
-        self.topGroupBox = QGroupBox()
-        self.middleGroupBox = QGroupBox()
-
+        self.topGroupBox = QGroupBox("Search Box")
+        self.middleGroupBox = QGroupBox("List Box")
+        # left layout widget #
         self.mainLeftLayout.addWidget(self.productsTable)
-        self.mainLayout.addLayout(self.mainLeftLayout)
-        self.tab1.setLayout(self.mainLayout) #tabs behaves is main window
 
+        # right top layout widget #
+        self.rightTopLayout.addWidget(self.searchText)
+        self.rightTopLayout.addWidget(self.searchEntry)
+        self.rightTopLayout.addWidget(self.searchButton)
+        self.topGroupBox.setLayout(self.rightTopLayout)
+        self.rightMiddleLayout.addWidget(self.allProducts)
+        self.rightMiddleLayout.addWidget(self.availableProducts)
+        self.rightMiddleLayout.addWidget(self.notAvailableProducts)
+        self.rightMiddleLayout.addWidget(self.listButton)
+        self.middleGroupBox.setLayout(self.rightMiddleLayout)
+
+        self.mainRightLayout.addWidget(self.topGroupBox)
+        self.mainRightLayout.addWidget(self.middleGroupBox)
+        self.mainLayout.addLayout(self.mainLeftLayout, 70)
+        self.mainLayout.addLayout(self.mainRightLayout, 30)
+        self.tab1.setLayout(self.mainLayout)  # tabs behaves is main window
 
 def main():
     App = QApplication(sys.argv)
