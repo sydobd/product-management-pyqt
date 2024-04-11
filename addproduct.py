@@ -1,11 +1,14 @@
-import sys
+import sys, os
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import Qt
 import sqlite3
+from PIL import Image
 
 con = sqlite3.connect("products.db")
 cur = con.cursor()
+
+defaultImg = "store.png"
 
 class AddProduct(QWidget):
     def __init__(self):
@@ -37,6 +40,7 @@ class AddProduct(QWidget):
         self.qoutaEntry = QLineEdit()
         self.qoutaEntry.setPlaceholderText("Enter qouta of product")
         self.uploadBtn = QPushButton("Upload")
+        self.uploadBtn.clicked.connect(self.uploadImg)
         self.submitBtn = QPushButton("Submit")
 
     def layouts(self):
@@ -62,3 +66,13 @@ class AddProduct(QWidget):
         self.mainLayout.addWidget(self.bottomFrame)
         self.setLayout(self.mainLayout)
 
+    def uploadImg(self):
+        global defaultImg
+        size = (256, 256)
+        self.filename, ok = QFileDialog.getOpenFileName(self, "Upload Image", "", "Image Files (*.jpg *.png)")
+        if ok:
+            defaultImg = os.path.basename(self.filename)
+            print(defaultImg)
+            img = Image.open(self.filename)
+            img = img.resize(size)
+            img.save("img/{0}".format(defaultImg))
