@@ -71,6 +71,16 @@ class Main(QMainWindow):
         self.availableProducts = QRadioButton("Available")
         self.notAvailableProducts = QRadioButton("Not Available")
         self.listButton = QPushButton("List")
+        # Tab2 #
+        self.membersTableWidget = QTableWidget()
+        self.membersTableWidget.setColumnCount(4)
+        self.membersTableWidget.setHorizontalHeaderItem(0,QTableWidgetItem("Member ID"))
+        self.membersTableWidget.setHorizontalHeaderItem(1,QTableWidgetItem("Member Name"))
+        self.membersTableWidget.setHorizontalHeaderItem(2,QTableWidgetItem("Member Surname"))
+        self.membersTableWidget.setHorizontalHeaderItem(3,QTableWidgetItem("Phone"))
+        self.memberSearchText = QLabel("Search Members")
+        self.memberSearchEntry = QLineEdit()
+        self.memberSearchButton = QPushButton("Search")
 
     def layouts(self):
         # Tab 1 #
@@ -100,6 +110,22 @@ class Main(QMainWindow):
         self.mainLayout.addLayout(self.mainLeftLayout, 70)
         self.mainLayout.addLayout(self.mainRightLayout, 30)
         self.tab1.setLayout(self.mainLayout)  # tabs behaves is main window
+
+        # tab 2
+        self.memberMainLayout = QHBoxLayout()
+        self.memberLeftLayout = QHBoxLayout()
+        self.memberRightLayout = QHBoxLayout()
+        self.memberRightGroupBox = QGroupBox("Search For Members")
+        self.memberRightGroupBox.setContentsMargins(10, 10, 10, 500)
+        self.memberRightLayout.addWidget(self.memberSearchText)
+        self.memberRightLayout.addWidget(self.memberSearchEntry)
+        self.memberRightLayout.addWidget(self.memberSearchButton)
+        self.memberRightGroupBox.setLayout(self.memberRightLayout)
+
+        self.memberLeftLayout.addWidget(self.membersTableWidget)
+        self.memberMainLayout.addLayout(self.memberLeftLayout)
+        self.memberMainLayout.addWidget(self.memberRightGroupBox)
+        self.tab2.setLayout(self.memberMainLayout)
 
 def main():
     App = QApplication(sys.argv)
